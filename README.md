@@ -360,8 +360,8 @@ Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalh
 
 ## 👨‍💻 Autor
 
-Desenvolvido com ❤️ durante a jornada de aprendizado em Python.
+Desenvolvido por Guilherme Mileib, com auxilio da LLM.
 
 ---
 
-**Happy Coding! 🐍✨**
+**Coda & Coding! 🐍✨**
