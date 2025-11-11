@@ -26,8 +26,43 @@ Vamos criar um programa que gerencia um inventário de loja, salvando os dados e
 
 import json
 
-while True:
+
+def adicionar():
+    nome_item = input("Digite o nome do item:")
+    qnt_item = input("Digite a quantidade:")
+    item = {'nome': nome_item, 'quantidade': int(qnt_item)}
+
+def listar():
     try:
         pass
-    except:
-        pass
+    except FileNotFoundError:
+        return "Lista não encontrada"
+
+def process_request(request):
+    match request:
+        case 1:
+            adicionar()
+        case 2:
+            listar()
+        case _:
+            return "Saindo do programa"
+
+def main():
+    while True:
+        try:
+            print("1. Adicionar")
+            print("2. Listar")
+            print("3. Sair")
+
+            user = input("O que deseja fazer?")
+            process_request(user)
+            if(user == "3"):
+                break
+        except ValueError:
+            print("Digite um valor válido")
+        except KeyboardInterrupt:
+            print("Programa interrompido pelo usuário")
+            break
+
+
+
