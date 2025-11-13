@@ -11,7 +11,8 @@ Vamos criar um programa que gerencia um inventário de loja, salvando os dados e
 - Peça ao usuário o nome do item e a quantidade.
 - Crie um dicionário para o item: item = {'nome': nome_item, 'quantidade': int(quantidade_item)}.
 - Abra o arquivo inventario.txt em modo de append ('a').
-- Use json.dumps(item) para converter o dicionário em uma string JSON e a escreva no arquivo, seguida de uma quebra de linha (\n).
+- Use json.dumps(item) para converter o dicionário em uma string JSON e a escreva no arquivo,
+ seguida de uma quebra de linha (\n).
 
 4. Se "2-Listar":
 
@@ -28,13 +29,20 @@ import json
 
 
 def adicionar():
-    nome_item = input("Digite o nome do item:")
-    qnt_item = input("Digite a quantidade:")
-    item = {'nome': nome_item, 'quantidade': int(qnt_item)}
+    nome_item = input("Digite o nome do item: ")
+    qnt_item = input("Digite a quantidade: ")
+    itens = {'nome': nome_item, 'quantidade': int(qnt_item)}
+    print(itens)
+    with open('inventario.txt', 'a') as f:
+            f.write(json.dumps(itens) + "\n")
+            
 
 def listar():
     try:
-        pass
+        with open('inventario.txt', 'r') as f:
+            for linha in f:
+                print(linha.strip())
+        print()
     except FileNotFoundError:
         return "Lista não encontrada"
 
@@ -45,24 +53,28 @@ def process_request(request):
         case 2:
             listar()
         case _:
-            return "Saindo do programa"
+            return "Escolha uma opção válida"
 
 def main():
     while True:
         try:
+            print()
+            print("==== ESCOLHA ALGUMA DAS OPÇÕES DO MENU ====")
             print("1. Adicionar")
             print("2. Listar")
             print("3. Sair")
-
-            user = input("O que deseja fazer?")
+            print()
+            user = int(input(".:  "))
             process_request(user)
-            if(user == "3"):
+            if(user == 3):
+                print("Saindo do programa...")
                 break
         except ValueError:
             print("Digite um valor válido")
         except KeyboardInterrupt:
+            print()
             print("Programa interrompido pelo usuário")
             break
 
-
-
+if __name__ == "__main__":
+    main()
