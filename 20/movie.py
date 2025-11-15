@@ -33,3 +33,31 @@ O objetivo é criar uma Classe que representa um filme.
 - Se sucesso for True, chame meu_filme.exibir().
 - Senão, imprima "Filme não encontrado."
 '''
+
+# 
+
+import requests
+
+class Filme:
+    def __init__(self, titulo, ano, diretor):
+        self.titulo = None
+        self.ano = None
+        self.diretor = None
+
+def main():
+    try:
+        print("Dados API Movie")
+        nome_filme = input("Digite aqui o nome do filme: ")
+        api_key = input("Digite aqui sua chave de API: ")
+        buscar(nome_filme, api_key)
+    except ValueError:
+        return "Digite um valor válido"
+
+def buscar(nome_filme, api_key):
+        data = requests.get(f"http://www.omdbapi.com/?t={nome_filme}&apikey={api_key}")
+        data.json()
+        print(data.json())    
+
+
+if __name__ == "__main__":
+    main()
