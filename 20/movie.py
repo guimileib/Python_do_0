@@ -34,30 +34,66 @@ O objetivo é criar uma Classe que representa um filme.
 - Senão, imprima "Filme não encontrado."
 '''
 
-# 
+# Proximo passo, como pegar os dados um de cada vez na api e como mudar os dados da classe...
 
 import requests
 
 class Filme:
-    def __init__(self, titulo, ano, diretor):
+    def __init__(self):
         self.titulo = None
         self.ano = None
         self.diretor = None
 
+    def buscar(self, nome_filme, api_key):
+        try:
+            response = requests.get(f"http://www.omdbapi.com/?t={nome_filme}&apikey={api_key}")
+            dados_json = response.json()
+
+            if dados_json.get("Response") == "True":
+                self.titulo = dados_json.get('Title')
+                self.ano = dados_json.get("Year")
+                self.diretor = dados_json.get("Director")
+                return True
+            else: 
+                return False
+            
+        except requests.exceptions.RequestException as e:
+            print(f"Erro na requisição: {e}")
+            return False
+        
+    def exibir(self):
+        if self.titulo is not None:
+            print()
+            print("Filme Encontrado:")
+            print()
+            print(f"Título: {self.titulo}")
+            print(f"Ano: {self.ano}")
+            print(f"Diretor: {self.diretor}")
+            print()
+        else:
+            print("Nenhum filme carregado para exibir")
+
+
 def main():
     try:
+        print("Buscador de Filme")
         print("Dados API Movie")
+
         nome_filme = input("Digite aqui o nome do filme: ")
         api_key = input("Digite aqui sua chave de API: ")
-        buscar(nome_filme, api_key)
-    except ValueError:
-        return "Digite um valor válido"
 
-def buscar(nome_filme, api_key):
-        data = requests.get(f"http://www.omdbapi.com/?t={nome_filme}&apikey={api_key}")
-        data.json()
-        print(data.json())    
+        meu_filme = Filme()
 
+        print(f'Buscando "{nome_filme}"...')
+        sucesso = meu_filme.buscar(nome_filme, api_key)
+
+        if sucesso: 
+            meu_filme.exibir()
+        else: 
+            print("Filme não encontrado")
+        
+    except Exception as e:
+        print(f"Erro inesperado: {e}") 
 
 if __name__ == "__main__":
     main()
